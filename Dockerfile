@@ -1,19 +1,19 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Zaroori compilation packages
+# Sabhi zaroori compilation packages aur missing autoconf archives
 RUN apt-get update && apt-get install -y \
     build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 \
+    autoconf-archive \
     libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev \
     libboost-program-options-dev libboost-test-dev libboost-thread-dev libdb++-dev libsqlite3-dev \
-    curl git bsdmainutils && rm -rf /var/lib/apt/lists/*
+    curl git && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY . .
 
-# Puraane cache aur architecture conflicts ko clear karke compile karna
-RUN make distclean || true && \
-    ./autogen.sh && \
+# Fresh configuration aur build sequence
+RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench && \
     make -j$(nproc)
 
