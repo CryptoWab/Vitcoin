@@ -11,11 +11,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
-# Logs ko bypass/quiet karne ke liye hum 'make' ko silent mode (-s) mein chalayenge
+# -s hata diya aur single core par compile karenge taaki exact error line freeze ho jaye
 RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench && \
-    make -s -j$(nproc)
-
-EXPOSE 22555 22556
-CMD ["./src/vitcoind", "-printtoconsole", "-rpcallowip=0.0.0.0/0", "-rpcbind=0.0.0.0", "-server=1"]
+    make
 
