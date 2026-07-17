@@ -1,13 +1,18 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Sirf running runtime libraries install karenge, compilation tools nahi chahiye
 RUN apt-get update && apt-get install -y \
-    build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 \
-    libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev \
-    libboost-program-options-dev libboost-test-dev libboost-thread-dev libdb++-dev libsqlite3-dev \
-    curl git && rm -rf /var/lib/apt/lists/*
+    libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev \
+    libboost-chrono-dev libboost-program-options-dev libboost-thread-dev \
+    libdb++-dev libsqlite3-dev && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 COPY . .
-RUN cd src/univalue && autoreconf --install --force && cd ../.. && ./autogen.sh && ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench && make -j$(nproc)
+
+# Binary ko execution permission dena pakka karne ke liye
+RUN chmod +x ./src/vitcoind
+
 EXPOSE 22555 22556
 CMD ["./src/vitcoind", "-printtoconsole", "-rpcallowip=0.0.0.0/0", "-rpcbind=0.0.0.0", "-server=1"]
 
