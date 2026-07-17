@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  vitcoind The vitcoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: vitcoind
+# processname: vitcoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/vitcoind, see below
+if [ -f /etc/sysconfig/vitcoind ]; then
+        . /etc/sysconfig/vitcoind
+fi
+
+RETVAL=0
+
+prog=vitcoind
+# you can override the lockfile via VTCCOIND_LOCKFILE in /etc/sysconfig/vitcoind
+lockfile=${VTCCOIND_LOCKFILE-/var/lock/subsys/vitcoind}
+
+# vitcoind defaults to /usr/bin/vitcoind, override with VTCCOIND_BIN
+vitcoind=${VTCCOIND_BIN-/usr/bin/vitcoind}
+
+# vitcoind opts default to -disablewallet, override with VTCCOIND_OPTS
+vitcoind_opts=${VTCCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $vitcoind $vitcoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

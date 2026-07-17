@@ -1,0 +1,6 @@
+usr/local/bin/vitcoin-qt usr/bin
+share/pixmaps/vitcoin32.xpm usr/share/pixmaps
+share/pixmaps/vitcoin16.xpm usr/share/pixmaps
+share/pixmaps/vitcoin128.png usr/share/pixmaps
+debian/vitcoin-qt.desktop usr/share/applications
+debian/vitcoin-qt.protocol usr/share/kde4/services/

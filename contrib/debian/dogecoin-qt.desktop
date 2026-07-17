@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Vitcoin Core
+Comment=Connect to the Vitcoin P2P Network
+Comment[de]=Verbinde mit dem Vitcoin peer-to-peer Netzwerk
+Comment[fr]=Vitcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Vitcoin, eşten eşe kriptografik sanal para birimi
+Exec=vitcoin-qt %u
+Terminal=false
+Type=Application
+Icon=vitcoin128
+MimeType=x-scheme-handler/vitcoin;
+Categories=Office;Finance;

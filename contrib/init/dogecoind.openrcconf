@@ -1,0 +1,33 @@
+# /etc/conf.d/vitcoind: config file for /etc/init.d/vitcoind
+
+# Config file location
+#VTCCOIND_CONFIGFILE="/etc/vitcoin/vitcoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $VTCCOIND_USER)
+#VTCCOIND_PIDDIR="/var/run/vitcoind"
+
+# What filename to give the pidfile
+#VTCCOIND_PIDFILE="${VTCCOIND_PIDDIR}/vitcoind.pid"
+
+# Where to write vitcoind data (be mindful that the blockchain is large)
+#VTCCOIND_DATADIR="/var/lib/vitcoind"
+
+# User and group to own vitcoind process
+#VTCCOIND_USER="vitcoin"
+#VTCCOIND_GROUP="vitcoin"
+
+# Path to vitcoind executable
+#VTCCOIND_BIN="/usr/bin/vitcoind"
+
+# Nice value to run vitcoind under
+#VTCCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+VTCCOIND_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for vitcoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+VTCCOIND_SIGTERM_TIMEOUT=60
