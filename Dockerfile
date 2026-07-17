@@ -11,8 +11,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
-# Parallel build hata kar single stream build karenge taaki error chhup na sake
+# Pura project compile karne ke bajaye sirf vitcoind binary ko build target banayenge
 RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench --disable-utils && \
-    make
-	
+    make src/vitcoind -j$(nproc)
+
+EXPOSE 22555 22556
+CMD ["./src/vitcoind", "-printtoconsole", "-rpcallowip=0.0.0.0/0", "-rpcbind=0.0.0.0", "-server=1"]
+
