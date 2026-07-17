@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
+# Permanent configuration setup
 RUN mkdir -p /root/.vitcoin
+COPY vitcoin.conf /root/.vitcoin/vitcoin.conf
 
 RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench --disable-utils && \
@@ -19,6 +21,6 @@ RUN ./autogen.sh && \
 
 EXPOSE 22555 22556
 
-# Yahan humne rpcuser, rpcpassword aur rpcallowip set kar diya hai
-CMD ["./src/vitcoind", "-printtoconsole", "-rpcallowip=0.0.0.0/0", "-rpcbind=0.0.0.0", "-server=1", "-rpcuser=vansh", "-rpcpassword=vansh000", "-rpcport=22555"]
+# Ab hume CMD me lamba choura flags dene ki zaroorat nahi, sab conf file se load hoga
+CMD ["./src/vitcoind", "-printtoconsole"]
 
