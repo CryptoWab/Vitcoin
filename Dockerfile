@@ -11,8 +11,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
-# -s hata diya aur single core par compile karenge taaki exact error line freeze ho jaye
+# --disable-utils lagane se sirf vitcoind banega aur errored cli bypass ho jayega
 RUN ./autogen.sh && \
-    ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench && \
-    make
+    ./configure --with-incompatible-bdb --without-gui --disable-tests --disable-bench --disable-utils && \
+    make -j$(nproc)
 
+EXPOSE 22555 22556
+CMD ["./src/vitcoind", "-printtoconsole", "-rpcallowip=0.0.0.0/0", "-rpcbind=0.0.0.0", "-server=1"]
+	
