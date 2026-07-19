@@ -21,8 +21,8 @@ RUN ./autogen.sh && \
 
 EXPOSE 22555 22556
 
-## Chisel download karne ke liye
-RUN apt-get update && apt-get install -y curl gunzip && \
+# Chisel download karne ke liye (gzip package ke sath)
+RUN apt-get update && apt-get install -y curl gzip && \
     curl -sSL https://github.com/jpillora/chisel/releases/download/v1.10.0/chisel_1.10.0_linux_amd64.gz | gunzip > /usr/local/bin/chisel && \
     chmod +x /usr/local/bin/chisel
 
