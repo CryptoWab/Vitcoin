@@ -21,6 +21,10 @@ RUN ./autogen.sh && \
 
 EXPOSE 22555 22556
 
-# Ab hume CMD me lamba choura flags dene ki zaroorat nahi, sab conf file se load hoga
-CMD ["./src/vitcoind", "-printtoconsole"]
+## Chisel download karne ke liye
+RUN apt-get update && apt-get install -y curl gunzip && \
+    curl -sSL https://github.com/jpillora/chisel/releases/download/v1.10.0/chisel_1.10.0_linux_amd64.gz | gunzip > /usr/local/bin/chisel && \
+    chmod +x /usr/local/bin/chisel
 
+# Vitcoin aur Chisel dono ko ek sath chalu karne ke liye
+CMD ./vitcoind -daemon && chisel server --port $PORT --auth "vitcoin:supersecretpass"
