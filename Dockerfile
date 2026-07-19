@@ -27,4 +27,4 @@ RUN apt-get update && apt-get install -y curl gzip && \
     chmod +x /usr/local/bin/chisel
 
 # Vitcoin aur Chisel dono ko ek sath chalu karne ke liye
-CMD /root/Vitcoin/src/vitcoind -daemon && chisel server --port $PORT --auth "vitcoin:supersecretpass"
+CMD /app/src/vitcoind -daemon && chisel server --port $PORT --auth "vitcoin:supersecretpass"
